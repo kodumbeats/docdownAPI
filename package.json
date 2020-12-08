@@ -7,8 +7,10 @@
     "dev": "nodemon main.js"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "html-parse-stringify": "^2.0.0",
     "markdown-it": "^12.0.2",
     "markdown-it-anchor": "^6.0.1",
     "markdown-it-toc-done-right": "^4.2.0",
