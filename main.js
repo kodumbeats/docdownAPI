@@ -12,6 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.post("/render", (req, res) => {
+  function findRoot(indexLog) {
+    const entries = Object.entries(indexLog);
+    const found = entries.findIndex((e) => e[1] == 0);
+    return entries[found - 1][0];
+  }
   const reqText = req.body.data;
   const ast = HTML.parse(md.render(reqText));
   let indexLog = {
@@ -62,6 +67,8 @@ app.post("/render", (req, res) => {
         indexLog.img = 0;
         break;
       case "p":
+        const theroot = findRoot(indexLog);
+        console.log(theroot);
         break;
       default:
         console.log(`No case for ${line.name}`);
