@@ -12,8 +12,6 @@
     "express": "^4.17.1",
     "html-parse-stringify": "^2.0.0",
     "markdown-it": "^12.0.2",
-    "markdown-it-anchor": "^6.0.1",
-    "markdown-it-toc-done-right": "^4.2.0",
     "nodemon": "^2.0.6"
   }
 }
