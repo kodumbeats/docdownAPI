@@ -27,6 +27,7 @@ app.post("/render", (req, res) => {
     p: 0,
     img: 0,
   };
+  const priority = ["h1", "h2", "h3", "h4", "p"];
   let prepend;
   ast.forEach((line) => {
     // define actions for
@@ -61,14 +62,57 @@ app.post("/render", (req, res) => {
         break;
       case "h4":
         indexLog.h4 = indexLog.h4 + 1;
-        prepend = indexLog.h1 + "." + indexLog.h2 + "." + indexLog.h4;
+        prepend =
+          indexLog.h1 +
+          "." +
+          indexLog.h2 +
+          "." +
+          indexLog.h3 +
+          "." +
+          indexLog.h4;
         line.children[0].content = prepend + " " + line.children[0].content;
         indexLog.p = 0;
         indexLog.img = 0;
         break;
       case "p":
-        const theroot = findRoot(indexLog);
-        console.log(theroot);
+        indexLog.p = indexLog.p + 1;
+        const r = findRoot(indexLog);
+        switch (r) {
+          case "h1":
+            prepend = indexLog.h1 + "." + indexLog.p;
+            line.children[0].content = prepend + " " + line.children[0].content;
+            break;
+          case "h2":
+            prepend = indexLog.h1 + "." + indexLog.h2 + "." + indexLog.p;
+            line.children[0].content = prepend + " " + line.children[0].content;
+            break;
+          case "h3":
+            prepend =
+              indexLog.h1 +
+              "." +
+              indexLog.h2 +
+              "." +
+              indexLog.h3 +
+              "." +
+              indexLog.p;
+            line.children[0].content = prepend + " " + line.children[0].content;
+            break;
+          case "h4":
+            prepend =
+              indexLog.h1 +
+              "." +
+              indexLog.h2 +
+              "." +
+              indexLog.h3 +
+              "." +
+              indexLog.h4 +
+              "." +
+              indexLog.p;
+            line.children[0].content = prepend + " " + line.children[0].content;
+            break;
+          default:
+            console.log("EOF");
+        }
         break;
       default:
         console.log(`No case for ${line.name}`);
