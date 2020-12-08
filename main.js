@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios");
 const HTML = require("html-parse-stringify");
 const md = require("markdown-it")();
 const cors = require("cors");
@@ -12,7 +13,64 @@ app.use(cors());
 
 app.post("/render", (req, res) => {
   const reqText = req.body.data;
-  const payload = { data: md.render(reqText) };
+  const ast = HTML.parse(md.render(reqText));
+  let indexLog = {
+    h1: 0,
+    h2: 0,
+    h3: 0,
+    h4: 0,
+    p: 0,
+    img: 0,
+  };
+  let prepend;
+  ast.forEach((line) => {
+    // define actions for
+    switch (line.name) {
+      case "h1":
+        indexLog.h1 = indexLog.h1 + 1;
+        prepend = indexLog.h1;
+        line.children[0].content = prepend + " " + line.children[0].content;
+        //TODO@kodumbeats: get rid of this variable reset (fix?: add priority order matching, requires finding the first zero in indexLog)
+        indexLog.h2 = 0;
+        indexLog.h3 = 0;
+        indexLog.h4 = 0;
+        indexLog.p = 0;
+        indexLog.img = 0;
+        break;
+      case "h2":
+        indexLog.h2 = indexLog.h2 + 1;
+        prepend = indexLog.h1 + "." + indexLog.h2;
+        line.children[0].content = prepend + " " + line.children[0].content;
+        indexLog.h3 = 0;
+        indexLog.h4 = 0;
+        indexLog.p = 0;
+        indexLog.img = 0;
+        break;
+      case "h3":
+        indexLog.h3 = indexLog.h3 + 1;
+        prepend = indexLog.h1 + "." + indexLog.h2 + "." + indexLog.h3;
+        line.children[0].content = prepend + " " + line.children[0].content;
+        indexLog.h4 = 0;
+        indexLog.p = 0;
+        indexLog.img = 0;
+        break;
+      case "h4":
+        indexLog.h4 = indexLog.h4 + 1;
+        prepend = indexLog.h1 + "." + indexLog.h2 + "." + indexLog.h4;
+        line.children[0].content = prepend + " " + line.children[0].content;
+        indexLog.p = 0;
+        indexLog.img = 0;
+        break;
+      case "p":
+        break;
+      default:
+        console.log(`No case for ${line.name}`);
+        break;
+    }
+  });
+  const payload = {
+    data: HTML.stringify(ast),
+  };
   res.send(payload);
 });
 
