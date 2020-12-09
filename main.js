@@ -169,9 +169,10 @@ app.post("/render", async (req, res) => {
         <p>Page 1 / x</p>
       </div>
       <table style="width:100%;">
-        <tr><th>SOP#</th><th>Title</th><th>Effective Date</th></tr>
+        <tr><th>SOP #</th><th>Title</th><th>Effective Date</th></tr>
         <tr><th>${yamlObj.docnum}</th><th>${yamlObj.title}</th><th>${yamlObj.eff}</th></tr>
       </table>
+      <hr />
     </div>`;
 
   const payload = {
