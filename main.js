@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const yaml = require("js-yaml");
 const HTML = require("html-parse-stringify");
 let frontmatter;
 const md = require("markdown-it")().use(
@@ -138,7 +139,24 @@ app.post("/render", (req, res) => {
     }
   });
   console.log(frontmatter);
+  // parse frontmatter
+  const yamlObj = yaml.safeLoad(frontmatter);
+
+  // header template will be `array.splice()`d into ast before shipping it back to client
+  const header = `
+    <div class="docHeader">
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+        <img style="width:128px;"src="/img/doclogo/testlogo.svg" />
+        <h1>Standard Operating Procedure</h1>
+        <p>Page 1 / x</p>
+      </div>
+      <table style="width:100%;">
+        <tr><th>SOP#</th><th>Title</th><th>Effective Date</th></tr>
+        <tr><th>${yamlObj.docnum}</th><th>${yamlObj.title}</th><th>${yamlObj.eff}</th></tr>
+      </table>
+    </div>`;
   const payload = {
+    header: header,
     data: HTML.stringify(ast),
   };
   res.send(payload);
