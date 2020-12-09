@@ -121,6 +121,17 @@ app.post("/render", (req, res) => {
             console.log("EOF");
         }
         break;
+      case undefined:
+        if (line.content === "\n") {
+          //newlines fail the switch - no name field
+          break;
+        } else {
+          console.warn({
+            warn: "undefined line",
+            line,
+          });
+          break;
+        }
       default:
         console.log(`No case for ${line.name}`);
         break;
