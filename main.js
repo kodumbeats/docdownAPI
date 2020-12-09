@@ -162,7 +162,7 @@ app.post("/render", async (req, res) => {
 
   // header template will be `array.splice()`d into ast before shipping it back to client
   const header = `
-    <div class="docHeader">
+    <div style="background-color:#eaeaea;padding:1em;">
       <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
         <img style="width:128px;"src="/img/doclogo/testlogo.svg" />
         <h1>Standard Operating Procedure</h1>
