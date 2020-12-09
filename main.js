@@ -3,14 +3,15 @@ const cors = require("cors");
 const express = require("express");
 const HTML = require("html-parse-stringify");
 const yaml = require("js-yaml");
+
+// markdown-it plugins and options
 let frontmatter;
-const md = require("markdown-it")().use(
-  require("markdown-it-front-matter"),
-  (fm) => {
+const md = require("markdown-it")()
+  .use(require("markdown-it-front-matter"), (fm) => {
     frontmatter = fm;
     // console.log(frontmatter);
-  }
-);
+  })
+  .use(require("markdown-it-underline"));
 
 const app = express();
 const port = 3100;
