@@ -1,7 +1,14 @@
 const express = require("express");
 const axios = require("axios");
 const HTML = require("html-parse-stringify");
-const md = require("markdown-it")();
+let frontmatter;
+const md = require("markdown-it")().use(
+  require("markdown-it-front-matter"),
+  (fm) => {
+    frontmatter = fm;
+    // console.log(frontmatter);
+  }
+);
 const cors = require("cors");
 
 const app = express();
@@ -119,6 +126,7 @@ app.post("/render", (req, res) => {
         break;
     }
   });
+  console.log(frontmatter);
   const payload = {
     data: HTML.stringify(ast),
   };
