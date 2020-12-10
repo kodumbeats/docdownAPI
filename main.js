@@ -161,19 +161,18 @@ app.post("/render", async (req, res) => {
   // parse frontmatter
   const yamlObj = yaml.safeLoad(frontmatter);
 
-  // header template will be `array.splice()`d into ast before shipping it back to client
   const header = `
     <div style="background-color:#eaeaea;padding:1em;">
       <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
         <img style="width:128px;"src="/img/doclogo/testlogo.svg" />
-        <h1>Standard Operating Procedure</h1>
+        <h2>Document Control</h2>
         <p>Page 1 / x</p>
       </div>
-      <table style="width:100%;">
-        <tr><th>SOP #</th><th>Title</th><th>Effective Date</th></tr>
-        <tr><th>${yamlObj.docnum}</th><th>${yamlObj.title}</th><th>${yamlObj.eff}</th></tr>
-      </table>
-      <hr />
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+        <div class="display:flex;align-items:row;"><p style="text-align:center;margin:0;"><b>SOP Number</b></p><p style="text-align:center;margin:0;">${yamlObj.docnum}</p></div>
+        <div class="display:flex;align-items:row;"><p style="text-align:center;margin:0;"><b>Document Title</b></p><p style="text-align:center;margin:0;">${yamlObj.title}</p></div>
+        <div class="display:flex;align-items:row;"><p style="text-align:center;margin:0;"><b>Effective Date</b></p><p style="text-align:center;margin:0;">${yamlObj.eff}</p></div>
+      </div>
     </div>`;
 
   const payload = {
