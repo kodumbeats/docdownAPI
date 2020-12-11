@@ -182,6 +182,16 @@ app.post("/render", async (req, res) => {
   res.send(payload);
 });
 
+// for temp storing revisions
+let revisions = [];
+app.get("/revisions", (req, res) => {
+  res.send({revisions})
+})
+app.post("/revisions", (req, res) => {
+  const newRevision = req.body.data;
+  revisions.push(newRevision)
+  res.send(`accepted revision ${newRevision}`)
+})
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
