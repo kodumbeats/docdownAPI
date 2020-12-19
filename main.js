@@ -178,6 +178,8 @@ app.post("/render", async (req, res) => {
   const payload = {
     header: header,
     data: HTML.stringify(ast),
+    frontmatter: JSON.stringify(yamlObj),
+    reqText: reqText,
   };
   res.send(payload);
 });
