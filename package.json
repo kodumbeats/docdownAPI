@@ -1,6 +1,8 @@
 {
   "name": "docdownAPI",
   "version": "0.0.1",
+  "private": true,
+  "license": "LGPL-3.0-or-later",
   "main": "main.js",
   "author": "kodumbeats <brandon.leckemby@gmail.com>",
   "scripts": {
